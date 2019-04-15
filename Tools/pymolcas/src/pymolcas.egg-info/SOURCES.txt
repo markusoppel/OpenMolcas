@@ -1,0 +1,17 @@
+README
+setup.py
+src/pymolcas/__init__.py
+src/pymolcas/abstract_flow.py
+src/pymolcas/check_test.py
+src/pymolcas/emil_grammar.py
+src/pymolcas/emil_parse.py
+src/pymolcas/molcas_aux.py
+src/pymolcas/molcas_wrapper.py
+src/pymolcas/python_parse.py
+src/pymolcas/simpleeval.py
+src/pymolcas/tee.py
+src/pymolcas.egg-info/PKG-INFO
+src/pymolcas.egg-info/SOURCES.txt
+src/pymolcas.egg-info/dependency_links.txt
+src/pymolcas.egg-info/requires.txt
+src/pymolcas.egg-info/top_level.txt

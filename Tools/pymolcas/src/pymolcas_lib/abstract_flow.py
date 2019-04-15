@@ -24,9 +24,9 @@ from os.path import isfile
 from re import match
 from io import BytesIO
 
-from molcas_aux import *
-from tee import teed_call
-from simpleeval import simple_eval, SimpleEval
+from pymolcas_lib.molcas_aux import *
+from pymolcas_lib.tee import teed_call
+from pymolcas_lib.simpleeval import simple_eval, SimpleEval
 
 #===============================================================================
 # Patch SimpleEval to use the "decimal" module for better precision handling

@@ -17,7 +17,7 @@ from __future__ import (unicode_literals, division, absolute_import, print_funct
 
 from os.path import basename
 from re import compile as re_compile
-from molcas_aux import *
+from pymolcas_lib.molcas_aux import *
 
 def check_test(infofile, checkfile, count):
   block = re_compile(r'#>>\s*(\d+)')

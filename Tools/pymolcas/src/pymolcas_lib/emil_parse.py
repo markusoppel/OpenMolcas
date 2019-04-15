@@ -16,9 +16,10 @@
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
 from pyparsing import ParseException, __version__ as pyparsing_version
-from emil_grammar import EMIL_Grammar
-from abstract_flow import *
 from re import match, search, IGNORECASE, compile as re_compile
+
+from pymolcas_lib.emil_grammar import EMIL_Grammar
+from pymolcas_lib.abstract_flow import *
 
 # set of precompiled regular expressions
 re_export = re_compile(r'export\s+(\S*)\s*=\s*(.*?)\s*$', flags=IGNORECASE)
@@ -213,12 +214,12 @@ def EMIL_Parse(input_file):
       elif (re_rm.match(item[1])):
         re_match = re_rm.match(item[1])
         blocks[level].append(ParTask('rm', (re_match.group(1) is not None), [re_match.group(2)]))
-        
+
       # >>> COPY, SAVE, CLONE, COLLECT
       elif (re_copy.match(item[1])):
         re_match = re_copy.match(item[1])
         blocks[level].append(ParTask(re_match.group(1).lower(), (re_match.group(2) is not None), [re_match.group(3), re_match.group(4)]))
-        
+
       # >>> FOREACH
       elif (re_foreach.match(item[1])):
         re_match = re_foreach.match(item[1])

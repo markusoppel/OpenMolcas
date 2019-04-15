@@ -15,7 +15,7 @@
 
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
-from abstract_flow import *
+from pymolcas_lib.abstract_flow import *
 
 def Python_Parse(filename):
   '''Simple method to return an "abstract flow" object with python code'''

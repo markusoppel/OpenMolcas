@@ -15,14 +15,19 @@
 #***********************************************************************
 
 from __future__ import (unicode_literals, division, absolute_import, print_function)
+from pymolcas_lib.molcas_aux import which
 from six import text_type
 import sys
+
 sys.dont_write_bytecode = True
 
 warning = ''
 stamp = 'd41d8cd98f00b204e9800998ecf8427e'
 
-def main(my_name):
+def f():
+  print(sys.argv[0])
+
+def main(my_name=None):
   if sys.hexversion < 0x03000000:
     if sys.hexversion < 0x02070000:
       return("Python 2.7 or newer is required to run this program.")
@@ -40,6 +45,7 @@ def main(my_name):
   from signal import signal, SIGPIPE, SIG_DFL
   signal(SIGPIPE, SIG_DFL)
 
+  my_name = which(sys.argv[0]) if my_name is None else my_name
   # Unbuffered output, and utf8 encoding
   # TODO: use binary streams throughout to get rid of encoding troubles?
   sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
@@ -89,9 +95,9 @@ def main(my_name):
   parser.usage = '{0} [options] [input_file | script ...]'.format(parser.prog)
   args = vars(parser.parse_args())
 
-  from molcas_aux import find_molcas, find_sources, attach_streams, dotmolcas
+  from pymolcas_lib.molcas_aux import find_molcas, find_sources, attach_streams, dotmolcas
   from write_molcasrc import write_molcasrc
-  from molcas_wrapper import Molcas_wrapper, MolcasException
+  from pymolcas_lib.molcas_wrapper import Molcas_wrapper, MolcasException
 
   # Checking for version right at the beginning, in case MOLCAS cannot be found
   if (args['version']):
@@ -230,9 +236,4 @@ def main(my_name):
 
 # Run pymolcas if not called via import
 if (__name__ == '__main__'):
-  from molcas_aux import which
-  f = which(sys.argv[0])
-  print(f)
-  if (f is None):
-    f = sys.argv[0]
   sys.exit(main(f))

@@ -34,11 +34,11 @@ from shlex import split as shsplit
 from contextlib import contextmanager
 from textwrap import fill
 
-from tee import teed_call
-from emil_parse import EMIL_Parse, EMILException
-from python_parse import Python_Parse
-from molcas_aux import *
-from check_test import *
+from pymolcas_lib.tee import teed_call
+from pymolcas_lib.emil_parse import EMIL_Parse, EMILException
+from pymolcas_lib.python_parse import Python_Parse
+from pymolcas_lib.molcas_aux import *
+from pymolcas_lib.check_test import *
 
 # python2 has no FileNotFoundError, so we will have to check
 # the errno attribute of the raised exception
