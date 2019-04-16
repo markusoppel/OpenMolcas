@@ -96,7 +96,7 @@ def main(my_name=None):
   args = vars(parser.parse_args())
 
   from pymolcas_lib.molcas_aux import find_molcas, find_sources, attach_streams, dotmolcas
-  from write_molcasrc import write_molcasrc
+  from pymolcas_lib.write_molcasrc import write_molcasrc
   from pymolcas_lib.molcas_wrapper import Molcas_wrapper, MolcasException
 
   # Checking for version right at the beginning, in case MOLCAS cannot be found

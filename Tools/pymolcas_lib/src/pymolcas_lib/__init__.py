@@ -19,6 +19,6 @@ def export(func):
 
 from pymolcas_lib import (molcas_aux, abstract_flow, emil_grammar, molcas_wrapper,
                           simpleeval, check_test, emil_parse,
-                          python_parse, tee, pymolcas)
+                          python_parse, tee, pymolcas, write_molcasrc)
 
 from pymolcas_lib.pymolcas import main, f

@@ -232,7 +232,6 @@ def main(my_name):
 if (__name__ == '__main__'):
   from molcas_aux import which
   f = which(sys.argv[0])
-  print(f)
   if (f is None):
     f = sys.argv[0]
   sys.exit(main(f))
