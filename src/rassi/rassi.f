@@ -73,7 +73,6 @@ C Needed matrix elements are computed by PROPER.
       Call GetMem('ENERGY','Allo','Real',LENERGY,NSTATE)
       Call GetMem('ITOCM','Allo','Inte',liTocM,NSTATE*(NSTATE+1)/2)
       Call GetMem('IDDET1','Allo','Inte',lIDDET1,NSTATE)
-C VK C
       Call GetMem('IDDET2','Allo','Inte',lIDDET2,NSTATE)
 
       NPROPSZ=NSTATE*NSTATE*NPROP

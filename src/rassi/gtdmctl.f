@@ -9,7 +9,7 @@
 * LICENSE or in <http://www.gnu.org/licenses/>.                        *
 ************************************************************************
       SUBROUTINE GTDMCTL(PROP,JOB1,JOB2,OVLP,DYSAMPS,SFDYS,NZ,
-     &     HAM,IDDET1,IDDET2,vkt)
+     &     HAM,IDDET1,IDDET2)
 
       !> module dependencies
 #ifdef _DMRG_
@@ -35,12 +35,9 @@
 #include "Struct.fh"
 #include "rassiwfn.fh"
 #include "stdalloc.fh"
-C VK C
-C#include "SysDef.fh"
 #include "para_info.fh"
       logical :: Rsv_Tsk
       integer :: itask,ltask,ltaski,ltaskj,ntasks,ID
-CC
       DIMENSION ISGSTR1(NSGSIZE), ISGSTR2(NSGSIZE)
       DIMENSION ICISTR1(NCISIZE), ICISTR2(NCISIZE)
       DIMENSION IXSTR1(NXSIZE), IXSTR2(NXSIZE)
@@ -51,9 +48,7 @@ CC
       DIMENSION DYSAMPS(NSTATE,NSTATE)
       DIMENSION SFDYS(NZ,NSTATE,NSTATE)
       DIMENSION IDDET1(NSTATE)
-C VK C
       DIMENSION IDDET2(NSTATE)
-      DIMENSION VKT(NSTATE,NSTATE)
       LOGICAL IF00, IF10,IF01,IF20,IF11,IF02,IF21,IF12,IF22
       LOGICAL IFTWO,TRORB
       CHARACTER*8 WFTP1,WFTP2
