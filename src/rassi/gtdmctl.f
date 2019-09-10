@@ -1110,6 +1110,7 @@ C      write(*,*) "C VK C left the jobs loop"
       call GAdSUM(PROP,nstate*nstate*nprop)
       call GAdSUM(OVLP,nstate*nstate)
       call GAdSUM(HAM,nstate*nstate)
+      call GAdSUM(DYSAMPS,nstate*nstate)
 #else
         END DO job1_loop
 
