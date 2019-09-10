@@ -36,6 +36,8 @@ C RAS state interaction.
 #include "symmul.fh"
 #include "rassiwfn.fh"
 #include "stdalloc.fh"
+C VK C
+#include "para_info.fh"
       CHARACTER*16 ROUTINE
       PARAMETER (ROUTINE='RASSI')
       Logical Fake_CMO2
@@ -71,6 +73,8 @@ C Needed matrix elements are computed by PROPER.
       Call GetMem('ENERGY','Allo','Real',LENERGY,NSTATE)
       Call GetMem('ITOCM','Allo','Inte',liTocM,NSTATE*(NSTATE+1)/2)
       Call GetMem('IDDET1','Allo','Inte',lIDDET1,NSTATE)
+C VK C
+      Call GetMem('IDDET2','Allo','Inte',lIDDET2,NSTATE)
 
       NPROPSZ=NSTATE*NSTATE*NPROP
       CALL GETMEM('Prop','Allo','Real',LPROP,NPROPSZ)
@@ -93,10 +97,12 @@ C Loop over jobiphs JOB1:
 
 C Compute generalized transition density matrices, as needed:
           CALL GTDMCTL(WORK(LPROP),JOB1,JOB2,WORK(LOVLP),WORK(LDYSAMPS),
-     &          WORK(LSFDYS),NZ,Work(LHAM),iWork(lIDDET1))
+     &         WORK(LSFDYS),NZ,Work(LHAM),iWork(lIDDET1),iWork(lIDDET2))
         END DO
       END DO
+
       Call GetMem('IDDET1','Free','Inte',lIDDET1,NSTATE)
+      Call GetMem('IDDET2','Free','Inte',lIDDET2,NSTATE)
 
 #ifdef _HDF5_
       CALL mh5_put_dset_array_real(wfn_overlap,

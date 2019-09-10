@@ -21,7 +21,7 @@
        Integer mxAtom
        Integer mxNemoAtom
        Parameter (mxAtom = 5000)
-       Parameter (mxroot = 600)
+       Parameter (mxroot = 4000)
        Parameter (mxNemoAtom = 200)
 #else
        Integer mxAtom
