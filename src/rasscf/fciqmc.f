@@ -250,14 +250,17 @@
         real*8, intent(out) :: NECIen
         logical :: newcycle_found
         integer :: LuNewC
+! kinetik161, (mpifort -fdefault-integer-8) MPI_Bcast does not always
+!             work with i8 count and root arguments
+        integer(4) :: count = 1, root = 0
         newcycle_found = .false.
         do while(.not. newcycle_found)
           call sleep(1)
           if (myrank == 0) call f_Inquire('NEWCYCLE', newcycle_found)
 #ifdef _MOLCAS_MPP_
           if (is_real_par()) then
-            call MPI_Bcast(newcycle_found, 1, MPI_LOGICAL,
-     &                     0, MPI_COMM_WORLD, error)
+            call MPI_Bcast(newcycle_found, count, MPI_LOGICAL,
+     &                     root, MPI_COMM_WORLD, error)
           end if
 #endif
         end do
@@ -271,7 +274,8 @@
         end if
 #ifdef _MOLCAS_MPP_
         if (is_real_par()) then
-          call MPI_Bcast(NECIen, 1, MPI_REAL8, 0,MPI_COMM_WORLD,error)
+          call MPI_Bcast(NECIen, count, MPI_REAL8,
+     &                   root,MPI_COMM_WORLD,error)
         end if
 #endif
       end subroutine wait_and_read

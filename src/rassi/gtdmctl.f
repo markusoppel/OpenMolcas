@@ -8,6 +8,11 @@
 * For more details see the full text of the license in the file        *
 * LICENSE or in <http://www.gnu.org/licenses/>.                        *
 ************************************************************************
+* VK TO DO in fix branch
+*    make dysamps work
+*    test it with nato keyword
+*    avoid all the conflicts between hdf5 and binary files
+*
       SUBROUTINE GTDMCTL(PROP,JOB1,JOB2,OVLP,DYSAMPS,SFDYS,NZ,
      &     HAM,IDDET1,IDDET2)
 
@@ -803,12 +808,13 @@ C Loop over the states of JOBIPH nr JOB1
         job1_loop: DO IST=1,NSTAT(JOB1)
           ISTATE=ISTAT(JOB1)-1+IST
         IF (ISTATE<JSTATE) cycle
+#endif
+
 C Entry into monitor: Status line
         WRITE(STLNE1,'(A6)') 'RASSI:'
         WRITE(STLNE2,'(A33,I5,A5,I5)')
      &      'Trans. dens. matrices for states ',ISTATE,' and ',JSTATE
         Call StatusLine(STLNE1,STLNE2)
-#endif
 
 C Read ISTATE wave function from TOTDET1 and JSTATE WF from TOTDET2
 #ifdef _DMRG_
@@ -1045,16 +1051,18 @@ C            write(*,*) "C VK C computes overlap"
             call trd_print(ISTATE, JSTATE, IFTRD2.AND.IF22, LTDM2)
 
 #ifdef _HDF5_
-            IF(IF11.AND.(LSYM1.EQ.LSYM2))THEN
-              call mh5_put_dset_array_real(wfn_sfs_tdm,
+            if (nProcs==1) then
+              IF(IF11.AND.(LSYM1.EQ.LSYM2))THEN
+                call mh5_put_dset_array_real(wfn_sfs_tdm,
      $        WORK(LTDMZZ),[NTDMZZ,1,1], [0,ISTATE-1,JSTATE-1])
-              call mh5_put_dset_array_real(wfn_sfs_tsdm,
+                call mh5_put_dset_array_real(wfn_sfs_tsdm,
      $        WORK(LTSDMZZ),[NTDMZZ,1,1], [0,ISTATE-1,JSTATE-1])
-            END IF
-            IF(SONATNSTATE.GT.0.OR.NATO)THEN
-              call mh5_put_dset_array_real(wfn_sfs_wetdm,
+              END IF
+              IF(SONATNSTATE.GT.0.OR.NATO)THEN
+                call mh5_put_dset_array_real(wfn_sfs_wetdm,
      $        WORK(LWDMZZ),[NTDMZZ,1,1], [0,ISTATE-1,JSTATE-1])
-            END IF
+              END IF
+            endif
 #endif
 
           END IF ! TRD1/2, mstate_dens
@@ -1088,8 +1096,7 @@ C            write(*,*) "C VK C computes overlap"
               WRITE(6,'(1x,a,f16.8)')' HIJ  =',HIJ
             END IF
           END IF
-C VK C
-#if defined (_MOLCAS_MPP_)
+#ifdef _MOLCAS_MPP_
 CSVC: The master node now continues to only handle task scheduling,
 C     needed to achieve better load balancing. So it exits from the task
 C     list.  It has to do it here since each process gets at least one
@@ -1101,7 +1108,6 @@ C     task.
  401  continue
       call Free_Tsk(ID)
       call GetMem('Tasks','FREE','INTE',lTask,2*nTasks)
-C      write(*,*) "C VK C left the jobs loop"
       call GAdSUM(PROP,nstate*nstate*nprop)
       call GAdSUM(OVLP,nstate*nstate)
       call GAdSUM(HAM,nstate*nstate)
