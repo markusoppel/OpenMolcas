@@ -239,67 +239,67 @@ test:dummy:
 # Define the actual jobs, each job has a "build" and a "test" stage,
 # the latter depends on the former.
 
-build:plain:
-  extends: .plain
-  <<: *compile
-test:plain:
-  extends: .plain
-  <<: *run-tests
-  needs:
-    - build:plain
-    - tinker
-  parallel: 2
+#build:plain:
+#  extends: .plain
+#  <<: *compile
+#test:plain:
+#  extends: .plain
+#  <<: *run-tests
+#  needs:
+#    - build:plain
+#    - tinker
+#  parallel: 2
 
-build:options:
-  extends: .options
-  <<: *compile
-test:options:
-  extends: .options
-  <<: *run-tests
-  needs:
-    - build:options
-    - tinker
-  parallel: 2
+#build:options:
+#  extends: .options
+#  <<: *compile
+#test:options:
+#  extends: .options
+#  <<: *run-tests
+#  needs:
+#    - build:options
+#    - tinker
+#  parallel: 2
 
-build:pgi:
-  extends: .pgi
-  <<: *compile
-test:pgi:
-  extends: .pgi
-  <<: *run-tests
-  needs:
-    - build:pgi
-    - tinker
-  parallel: 2
+#build:pgi:
+#  extends: .pgi
+#  <<: *compile
+#test:pgi:
+#  extends: .pgi
+#  <<: *run-tests
+#  needs:
+#    - build:pgi
+#    - tinker
+#  parallel: 2
 
-build:sun:
-  extends: .sun
-  <<: *compile
-test:sun:
-  extends: .sun
-  <<: *run-tests
-  needs:
-    - build:sun
-    - tinker
-  parallel: 2
+#build:sun:
+#  extends: .sun
+#  <<: *compile
+#test:sun:
+#  extends: .sun
+#  <<: *run-tests
+#  needs:
+#    - build:sun
+#    - tinker
+#  parallel: 2
 
-build:intel:
-  extends: .intel
-  <<: *compile
-test:intel:
-  extends: .intel
-  <<: *run-tests
-  needs:
-    - build:intel
+#build:intel:
+#  extends: .intel
+#  <<: *compile
+#test:intel:
+#  extends: .intel
+#  <<: *run-tests
+#  needs:
+#    - build:intel
 
-build:intel13:
-  extends: .intel13
-  <<: *compile
-test:intel13:
-  extends: .intel13
-  <<: *run-tests
-  needs:
-    - build:intel13
+#build:intel13:
+#  extends: .intel13
+#  <<: *compile
+#test:intel13:
+#  extends: .intel13
+#  <<: *run-tests
+#  needs:
+#    - build:intel13
 
 # Disable NAG, since the runner is unavailable
 #build:nag:
@@ -312,26 +312,26 @@ test:intel13:
 #    - build:nag
 #    - tinker
 
-build:garble:
-  extends: .garble
-  <<: *compile
-test:garble:
-  extends: .garble
-  <<: *run-tests
-  needs:
-    - build:garble
-    - tinker
-  parallel: 4
+#build:garble:
+#  extends: .garble
+#  <<: *compile
+#test:garble:
+#  extends: .garble
+#  <<: *run-tests
+#  needs:
+#    - build:garble
+#    - tinker
+#  parallel: 4
 
-build:bounds:
-  extends: .bounds
-  <<: *compile
-test:bounds:
-  extends: .bounds
-  <<: *run-tests
-  needs:
-    - build:bounds
-  parallel: 4
+#build:bounds:
+#  extends: .bounds
+#  <<: *compile
+#test:bounds:
+#  extends: .bounds
+#  <<: *run-tests
+#  needs:
+#    - build:bounds
+#  parallel: 4
 
 build:debug:
   extends: .debug
@@ -342,12 +342,21 @@ build:debug:
 #  needs:
 #    - build:debug
 
-build:qcmaquis:
-  extends: .qcmaquis
+#build:qcmaquis:
+#  extends: .qcmaquis
+#  <<: *compile
+#test:qcmaquis:
+#  extends: .qcmaquis
+#  <<: *run-tests
+#  needs:
+#    - build:qcmaquis
+
+build:try:
+  extends: .try
   <<: *compile
-test:qcmaquis:
-  extends: .qcmaquis
+test:try:
+  extends: .try
   <<: *run-tests
   needs:
-    - build:qcmaquis
+    - build:try
 
