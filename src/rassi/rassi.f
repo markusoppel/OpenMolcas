@@ -36,7 +36,6 @@ C RAS state interaction.
 #include "symmul.fh"
 #include "rassiwfn.fh"
 #include "stdalloc.fh"
-C VK C
 #include "para_info.fh"
       CHARACTER*16 ROUTINE
       PARAMETER (ROUTINE='RASSI')

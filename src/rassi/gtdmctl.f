@@ -8,11 +8,7 @@
 * For more details see the full text of the license in the file        *
 * LICENSE or in <http://www.gnu.org/licenses/>.                        *
 ************************************************************************
-* VK TO DO in fix branch
-*    make dysamps work
-*    test it with nato keyword
-*    avoid all the conflicts between hdf5 and binary files
-*
+
       SUBROUTINE GTDMCTL(PROP,JOB1,JOB2,OVLP,DYSAMPS,SFDYS,NZ,
      &     HAM,IDDET1,IDDET2)
 
@@ -646,7 +642,6 @@ C At present, we will only annihilate. This limits the possible MAXOP:
 C-------------------------------------------------------------
       CALL GETMEM('GTDMDET1','ALLO','REAL',LDET1,NDET1)
       CALL GETMEM('GTDMDET2','ALLO','REAL',LDET2,NDET2)
-C VK C
       call GetMem('TOTDET1','ALLO','REAL',LDETTOT1,NDET1*NSTAT(JOB1))
       call GetMem('TOTDET2','ALLO','REAL',LDETTOT2,NDET2*NSTAT(JOB2))
 
@@ -700,7 +695,6 @@ C Write out the determinant expansion to LDETTOT1
         CALL DCOPY_(NCONF2,[0.0D0],0,WORK(LTheta1),1)
       End If
 
-C VK C
 C Loop over the states of JOBIPH nr JOB2
       LWDET=LDETTOT2
       do JST=1,NSTAT(JOB2)
@@ -758,8 +752,8 @@ C Write out the determinant expansion to LDETTOT1
 
 C-----------------------------------------------------------------------
 
-C VK C setup index table for calculation in parallel
-C VK C double loop (jstate,istate>=jstate) -> a set of indices (itask)
+C VK2019 C setup index table for calculation in parallel
+C VK2019 C double loop (jstate,istate>=jstate) -> a set of indices (itask)
       if (JOB1==JOB2) then
         nTasks=nstat(JOB1)*(nstat(JOB1)+1)/2
       else
@@ -780,7 +774,7 @@ C VK C double loop (jstate,istate>=jstate) -> a set of indices (itask)
           iWork(ltaski+iTask-1)=ist
         enddo
       enddo
-      if(iTask/=nTasks) write(6,*) "Error in nTasks"
+      if (iTask/=nTasks) write(6,*) "Error in nTasks"
 
 C-----------------------------------------------------------------------
 C
@@ -789,17 +783,19 @@ C
 #ifdef _MOLCAS_MPP_
       call Init_Tsk(ID,nTasks)
       If (nProcs>1) then
-C        write(*,*) "avoiding double counting"
+C        write(*,*) "to avoid double counting"
         OVLP=OVLP/dble(nProcs)
         PROP=PROP/dble(nProcs)
         HAM=HAM/dble(nProcs)
+        SFDYS=SFDYS/dble(nProcs)
+        DYSAMPS=DYSAMPS/dble(nProcs)
       EndIf
  400  if (.not. Rsv_Tsk(ID,iTask)) goto 401
+C VK2019 C recovers (jstate,istate) indicies as in serial calc
       jst=iWork(ltaskj+iTask-1)
       ist=iWork(ltaski+iTask-1)
       jstate=istat(JOB2)-1+jst
       istate=istat(JOB1)-1+ist
-C      write(*,'(a,2x,4i3)') "C VK C states", jst,ist,jstate,istate
 #else
 C Loop over the states of JOBIPH nr JOB2
       job2_loop: DO JST=1,NSTAT(JOB2)
@@ -881,7 +877,6 @@ C In AO basis:
 ! +++
 
 C General 1-particle transition density matrix:
-C      write(*,*) "C VK C computes 1dm"
       IF (IF11) THEN
         CALL MKTDM1(LSYM1,MPLET1,MSPROJ1,IWORK(LFSBTAB1),
      &            LSYM2,MPLET2,MSPROJ2,IWORK(LFSBTAB2),IWORK(LSSTAB),
@@ -918,7 +913,6 @@ C             Write density 1-matrices in AO basis to disk.
 
               if(.not.mstate_dens)then
 
-C VK C this writing is of no any interest to us
                 IF((SONATNSTATE.GT.0).OR.NATO) THEN
 *C Transition density matrices, TDMZZ, in AO basis.
 *C WDMZZ similar, but WE-reduced 'triplet' densities.
@@ -975,7 +969,6 @@ C VK C this writing is of no any interest to us
           ELSE ! IF11
 
             !> overlap
-C            write(*,*) "C VK C computes overlap"
             IF (IF00) THEN
 #ifdef _DMRG_
               if(.not.doDMRG)then
@@ -1111,6 +1104,7 @@ C     task.
       call GAdSUM(PROP,nstate*nstate*nprop)
       call GAdSUM(OVLP,nstate*nstate)
       call GAdSUM(HAM,nstate*nstate)
+      call GAdSUM(SFDYS,nz*nstate*nstate)
       call GAdSUM(DYSAMPS,nstate*nstate)
 #else
         END DO job1_loop
