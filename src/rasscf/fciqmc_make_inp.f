@@ -148,8 +148,6 @@
         write(file_id, I_fmt()) 'time', time
         write(file_id, I_fmt()) 'startsinglepart', startsinglepart
         write(file_id, I_fmt()) 'pops-core', pops_core
-        write(file_id, I_fmt())
-     &    'rdmsamplingiters', RDMsampling%start * RDMsampling%n_samples
       call dedent()
       write(file_id, A_fmt()) 'endcalc'
       write(file_id, *)
@@ -159,12 +157,9 @@
         write(file_id, A_fmt()) 'print-spin-resolved-RDMs'
         write(file_id, A_fmt()) 'hdf5-pops'
         write(file_id, A_fmt()) 'printonerdm'
-! TODO(Oskar): As soon as RDMlinspace is widely used in NECI uncomment.
-!        write(file_id,'('//str(indentlevel)//'x, A,1x,I0,1x,I0,1x,I0)')
-!     &     'RDMlinspace',
-!     &      RDMsampling%start, RDMsampling%n_samples, RDMsampling%step
-        write(file_id,'('//str(indentlevel)//'x, A,1x,I0,1x,I0,1x,I0)')
-     &    'calcrdmonfly', 3, RDMsampling%start, RDMsampling%step
+       write(file_id,'('//str(indentlevel)//'x, A,1x,I0,1x,I0,1x,I0)')
+     &    'RDMlinspace',
+     &    RDMsampling%start, RDMsampling%n_samples, RDMsampling%step
       call dedent()
       write(file_id, A_fmt()) 'endlog'
       write(file_id, A_fmt()) 'end'
