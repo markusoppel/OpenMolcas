@@ -212,23 +212,12 @@
   image: ${CI_REGISTRY}/molcas/dockerfiles/gcc-7:latest
   variables:
     cache_file: |
-      set (CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "opt, debug info")
-      set (BUILD_SHARED_LIBS "ON" CACHE STRING "use shared libmolcas")
-      set (BUILD_STATIC_LIB "ON" CACHE STRING "build static libmolcas too")
-      set (BIGOT "ON" CACHE STRING "do not allow any warning")
-      set (DEBUG_DEFS "_BIGOT_" CACHE STRING "stricter runtime checks")
-      set (LINALG "Runtime" CACHE STRING "runtime blas/lapack linking")
-      set (FDE "ON" CACHE STRING "enable frozen-density-embedding (FDE) interface")
-      set (GRID_IT "ON" CACHE STRING "enable public GRID_IT code")
-      set (TOOLS "ON" CACHE STRING "compile Tools")
-      set (MSYM "ON" CACHE STRING "enable libmsym (needs submodule)")
-      set (WFA "ON" CACHE STRING "enable libwfa (needs submodule)")
+      set (CMAKE_BUILD_TYPE "Garble" CACHE STRING "garble installation" )
+      set (BUILD_SHARED_LIBS "OFF" CACHE STRING "static molcas lib" )
+      set (HDF5 "OFF" CACHE STRING "turn off HDF5")
+      set (DEFMOLCASMEM "256" CACHE STRING "reduce memory to get more speed")
     CC: "gcc"
     CXX: "g++"
-    FC: "gfortran"
-    submodules: "External/lapack External/grid_it External/libmsym External/libwfa"
-    MOLCAS_LINALG: "/opt/OpenBLAS/lib/libopenblas.so"
-    MOLCAS_LINALG_INFO: "YES"
+    FC: "nagfor"
   tags:
-    - gcc
     - nagfor
