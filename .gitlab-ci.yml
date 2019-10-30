@@ -283,17 +283,17 @@ test:dummy:
 #    - tinker
 #  parallel: 2
 
-build:intel:
-  extends: .intel
-  <<: *compile
-test:intel:
-  extends: .intel
-  <<: *run-tests
-  needs:
-    - build:intel
-  parallel: 2
-  tags:
-    - docker
+#build:intel:
+#  extends: .intel
+#  <<: *compile
+#test:intel:
+#  extends: .intel
+#  <<: *run-tests
+#  needs:
+#    - build:intel
+#  parallel: 2
+#  tags:
+#    - docker
 
 #build:intel13:
 #  extends: .intel13
@@ -362,6 +362,6 @@ test:try:
   <<: *run-tests
   needs:
     - build:try
-  tags:
-    - docker
+  #tags:
+  #  - docker
 

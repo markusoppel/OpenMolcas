@@ -851,6 +851,12 @@ set (FFLAGS_NAG_RELWITHDEBINFO "-O2 -g -ieee=full")
 set (FFLAGS_NAG_RELEASE "-O2 -ieee=full")
 set (FFLAGS_NAG_FAST "-O3 -ieee=full")
 
+# Fix for NAG compiler (similar to GNU Fortran >= 4.8)
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND
+    CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
+        set (FFLAGS_NAG_BASIC "${FFLAGS_NAG_BASIC} -Wc,-fno-aggressive-loop-optimizations")
+endif ()
+
 # The option does not exist, or I cannot find it
 #set (FFLAGS_NAG_BIGOT "???")
 set(NAG_TRAP "-ieee=stop")

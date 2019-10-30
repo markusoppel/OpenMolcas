@@ -216,6 +216,10 @@
       set (BUILD_SHARED_LIBS "OFF" CACHE STRING "static molcas lib" )
       set (HDF5 "OFF" CACHE STRING "turn off HDF5")
       set (DEFMOLCASMEM "256" CACHE STRING "reduce memory to get more speed")
+    pre_compile_script: |
+      echo $${NAG_KUSARI_FILE}
+      cat $${NAG_KUSARI_FILE}
+      export PATH=/opt/nag:$${PATH}
     CC: "gcc"
     CXX: "g++"
     FC: "nagfor"
